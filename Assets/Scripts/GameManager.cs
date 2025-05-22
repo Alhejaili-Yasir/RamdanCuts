@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Blade blade;
     [SerializeField] private Spawner spawner;
     [SerializeField] private TMP_Text scoreText;
+      [SerializeField] private TMP_Text highScoreText;
+  float hiscore;
 
 
     public int score { get; private set; } = 0;
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         NewGame();
+         float hiscore = PlayerPrefs.GetFloat("hiscore", 0);
     }
 
     private void NewGame()
@@ -69,19 +72,23 @@ public class GameManager : MonoBehaviour
             Destroy(bomb.gameObject);
         }
     }
-
+    void Update()
+    {
+        hiscore = PlayerPrefs.GetFloat("hiscore", 0);
+    }
     public void IncreaseScore(int points)
     {
         score += points;
         scoreText.text = score.ToString();
-
-        float hiscore = PlayerPrefs.GetFloat("hiscore", 0);
+ hiscore = PlayerPrefs.GetFloat("hiscore", 0);
+       
 
         if (score > hiscore)
         {
             hiscore = score;
             PlayerPrefs.SetFloat("hiscore", hiscore);
         }
+        highScoreText.text=hiscore.ToString();
     }
 
     public void Explode()
